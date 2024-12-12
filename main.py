@@ -2,6 +2,7 @@ from config import open_weather_token
 import datetime
 import requests
 import pprint
+import aiogram
 
 def get_weather(city, open_weather_token):
     try:
@@ -18,10 +19,14 @@ def get_weather(city, open_weather_token):
         wind=data["wind"]["speed"]
         sunrise_timestamp=datetime.datetime.fromtimestamp(data["sys"]["sunrise"])
         sunset_timestamp=datetime.datetime.fromtimestamp(data["sys"]["sunset"])
+        length_of_the_day=datetime.datetime.fromtimestamp(data["sys"]["sunset"]) - datetime.datetime.fromtimestamp(data["sys"]["sunrise"])
 
-        print(f"Погода в городе: {city}\nТемпература: {cur_weather} C\n"
+        print(f"***{datetime.datetime.now().strftime('%d-%m-%Y %H:%M')}***\n"
+              f"Погода в городе: {city}\nТемпература: {cur_weather} °C\n"
               f"Влажность: {humidity} %\nДавление: {pressure} мм.рт.ст\n"
-              f"Ветер: {wind} м/c\nРассвет: {sunrise_timestamp}\nЗакат: {sunset_timestamp}")
+              f"Ветер: {wind} м/c\nРассвет: {sunrise_timestamp}\nЗакат: {sunset_timestamp}\n"
+              f"Световой день: {length_of_the_day}"
+              )
 
     except Exception as ex:
         print(ex)
